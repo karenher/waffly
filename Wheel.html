@@ -1,0 +1,125 @@
+<html>
+	
+<body>
+	<canvas id="wheel" width="300" height="200">
+
+	</canvas>
+	<svg height="520" width="520">
+	  <!--<circle cx="260" cy="260" r="250" stroke="black" stroke-width="3" fill="red" />
+	  <path id="arc1" fill="orange" />-->
+	</svg>
+
+	<script>
+		var c=document.getElementById("wheel");
+		var ctx=c.getContext("2d");
+		var segs = 5;
+		var arc = 2 * Math.PI / segs;
+		for (var i = 0; i < segs; i++) {
+			// ctx.lineTo(50 * Math.sin(i * arc), 50 * Math.cos(i * arc));
+			ctx.beginPath();
+			ctx.fillStyle = (i % 2 === 0) ? '#BD4932' : '#FFFAD5';
+
+			ctx.moveTo(100,75);
+			ctx.arc(100,75,50,i * arc, i * arc + arc);
+
+            ctx.closePath();
+			ctx.fill();
+		}
+
+
+
+function segment(x, y, r, start, end){
+
+    var startCoord = {
+    	x: x + (r * Math.cos(start)),
+    	y: y + (r * Math.sin(start))
+  	};
+    var endCoord = {
+    	x: x + (r * Math.cos(end)),
+    	y: y + (r * Math.sin(end))
+  	};
+
+    var d = [
+        "M", startCoord.x, startCoord.y, 
+        "A", r, r, 0, 0, 1, endCoord.x, endCoord.y,
+        "L", x,y,
+        "L", startCoord.x, startCoord.y
+    ].join(" ");
+    
+    return d;       
+}
+
+// var arc = segment(700, 700, 100, 0, 2 * Math.PI / 5);
+
+// document.getElementById("arc1").setAttribute("d", arc);
+// var svg = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+// svg.setAttribute('width','200');
+// svg.setAttribute('height','200');
+// document.body.appendChild(svg);
+// for (var i = 0; i < 5; i++) {
+// var path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+// path.setAttribute('d', segment(100, 100, 100, i * 2 * Math.PI / 5, i * 2 * Math.PI / 5 + 2 * Math.PI / 5));
+// path.setAttribute('fill',(i % 2==0 ? 'red' : '#A0A000'));
+// svg.appendChild(path);
+// }
+
+var svgWheel = document.createElementNS('http://www.w3.org/2000/svg', 'svg');
+svgWheel.setAttribute('width','500');
+svgWheel.setAttribute('height','500');
+document.body.appendChild(svgWheel);
+
+var dAngle = 0;
+var time = -10;
+var svgNS = 'http://www.w3.org/2000/svg';
+function draw() {
+	var segNum = 20;
+	var centerX = 250;
+	var centerY = 250;
+	var radius = 200;
+	var circle = document.createElementNS(svgNS, 'circle');
+	circle.setAttribute('cx', centerX);
+	circle.setAttribute('cy', centerY);
+	circle.setAttribute('r', radius + 35);
+	circle.setAttribute('fill', 'red');
+	svgWheel.appendChild(circle);
+	for (var i = 0; i < segNum; i++) {
+		var newPath = document.createElementNS(svgNS, 'path');
+		newPath.setAttribute('d', segment(centerX, centerY, radius, dAngle + i * 2 * Math.PI / segNum, dAngle + i * 2 * Math.PI / segNum + 2 * Math.PI / segNum));
+		newPath.setAttribute('fill',(i % 2==0 ? 'yellow' : 'magenta'));
+		newPath.setAttribute('stroke', 'white');
+  // var newText = document.createElementNS(svgNS,"text");
+  // newText.setAttributeNS(null,"x",20);      
+  // newText.setAttributeNS(null,"y",100);   
+  // newText.setAttributeNS(null,"fill","#000000");   
+  // var textNode = document.createTextNode("milind morey");
+  // newText.appendChild(textNode);
+  // newPath.appendChild(newText);
+  var text = document.createElementNS(svgNS, 'text');   
+  text.setAttributeNS(null, 'contenteditable', true);    
+  text.setAttributeNS(null, 'x', 50); 
+  text.setAttributeNS(null, 'y', 50);
+  text.setAttributeNS(null,"font-size",50);           
+  text.setAttributeNS(null, 'fill', '#343938');
+  text.setAttributeNS(null, 'text-anchor', 'middle');
+  text.setAttributeNS(null, 'transform', 'rotate(' + dAngle * (180 / Math.PI) + ', 50, 50)');
+// text.setAttributeNS(null, 'id', 'roomName');
+  var textNode = document.createTextNode("work");
+  text.appendChild(textNode);
+// text.textContent = "textContent"; 
+  svgWheel.appendChild(text);
+		svgWheel.appendChild(newPath);
+	}
+	time += 10;
+	dAngle += Math.PI /120;
+	if (time >= 2000) {
+	  clearTimeout(timeout);
+	  var segID = Math.floor(2*Math.PI - dAngle % (2 * Math.PI) / (2 * Math.PI / segNum));
+	  console.log(segID);
+	}
+}
+
+var timeout = setInterval('draw()', 1);
+	</script>
+
+</body>
+</html>
