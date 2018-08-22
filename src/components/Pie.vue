@@ -1,5 +1,5 @@
 <template>
-  <path :d='segment(centerX, centerY, radius, angle + (index + 1) * arc, angle + (index + 1) * arc + arc)' :fill='pieColor' stroke='white'/>
+  <path class="pie" :d='segment(centerX, centerY, radius, angle + (index) * arc, angle + (index) * arc + arc)' :fill='pieColor' stroke='white'/>
   
 </template>
 
@@ -17,7 +17,7 @@ export default {
   computed: {
   },
   mounted() {
-    console.log(this.color);
+    //console.log(this.color);
   },
   methods: {
     segment(x, y, r, start, end){
@@ -45,5 +45,17 @@ export default {
 </script>
 
 <style scoped>
-
+.pie {
+  pointer-events:all;
+  ##transition: all 0.25s ease-out;
+  transform-origin: 15.6em 15.6em;
+}
+.pie:hover {
+  fill: navy;
+  ##transform: scale(1.1);
+}
+.pie:active {
+  transform: scale(1.18);
+  transition: all 0.25s ease-out;
+}
 </style>
