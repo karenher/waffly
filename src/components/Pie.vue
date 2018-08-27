@@ -1,5 +1,5 @@
 <template>
-  <path class="pie" :d='segment(centerX, centerY, radius, angle + (index) * arc, angle + (index) * arc + arc)' :fill='pieColor' stroke='white'/>
+  <path class="pie" :d='segment(centerX, centerY, radius, angle + (index) * arc, angle + (index) * arc + arc)' :fill='pieColor' stroke='white' @click="changeSelection(index)" />
   
 </template>
 
@@ -10,11 +10,13 @@ export default {
   props: ['centerX', 'centerY', 'radius', 'segNum', 'index', 'angle','color'],
   data () {
     return {
-      pieColor: (typeof this.color !== 'undefined' ? this.color : 'magenta'),
-      arc: 2 * Math.PI / this.segNum
+      pieColor: (typeof this.color !== 'undefined' ? this.color : 'magenta')
     }
   },
   computed: {
+    arc() {
+      return 2 * Math.PI / this.segNum;
+    }
   },
   mounted() {
     //console.log(this.color);
@@ -38,6 +40,9 @@ export default {
         ].join(" ");
         
         return d;       
+    },
+    changeSelection(id) {
+      this.$emit('changeSelection', id);
     }
   }
 
@@ -54,8 +59,12 @@ export default {
   fill: navy;
   ##transform: scale(1.1);
 }
-.pie:active {
-  transform: scale(1.18);
-  transition: all 0.25s ease-out;
+@media not screen 
+and (min-device-width : 768px) 
+and (max-device-width : 1024px) {
+  .pie:active {
+    transform: scale(1.18);
+    transition: all 0.25s ease-out;
+  }
 }
 </style>
