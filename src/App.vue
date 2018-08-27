@@ -1,6 +1,6 @@
 <template v-if="dataLoaded">
   <div id="app">
-    <table>
+    <table style="margin: auto;">
       <tr>
         <td @click="removeInput" style="padding-top: 180px;" class="list">
           <button class="button button-spin" @click="spin">Spin!</button>
@@ -147,6 +147,7 @@ export default {
     cursor: pointer;
     width: 10rem;
     height: 5rem;
+    display:block;
 }
 
 .button-spin { 
